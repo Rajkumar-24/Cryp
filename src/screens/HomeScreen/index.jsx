@@ -8,7 +8,6 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import cryptocurrencies from "../../../assets/data/cryptocurrencies.json";
 import CoinItem from "../../components/CoinItem";
 import { getMarketData } from "../../services/request";
 import { ActivityIndicator } from "react-native";
@@ -38,13 +37,7 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchCoins();
   }, []);
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, alignSelf: "center" }}>
-  //       <Text style={{ color: "grey", fontSize: 35 }}>Loading</Text>
-  //     </View>
-  //   );
-  // }
+
   return (
     <View>
       <View
