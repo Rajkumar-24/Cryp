@@ -251,14 +251,14 @@ const CoinDetailsScreen = () => {
                     <View>
                       <Text style={styles.candleStickTExtLabel}>High</Text>
                       <CandlestickChart.PriceText
-                        style={styles.candleStickText}
+                        style={[styles.candleStickText, { color: "#16c784" }]}
                         type="high"
                       />
                     </View>
                     <View>
                       <Text style={styles.candleStickTExtLabel}>Low</Text>
                       <CandlestickChart.PriceText
-                        style={styles.candleStickText}
+                        style={[styles.candleStickText, { color: "#ea3943" }]}
                         type="low"
                       />
                     </View>
@@ -278,7 +278,11 @@ const CoinDetailsScreen = () => {
                   </View>
                 </CandlestickChart.Provider>
               ) : (
-                <LineChart height={screenWidth / 2} width={screenWidth}>
+                <LineChart
+                  style={{ backgroundColor: "#121212" }}
+                  height={screenWidth / 2}
+                  width={screenWidth}
+                >
                   <LineChart.Path color={chartColor}>
                     <LineChart.Gradient color={chartColorGradient} />
                   </LineChart.Path>

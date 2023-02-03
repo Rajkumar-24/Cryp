@@ -105,7 +105,7 @@ const AddNewAssetScreen = () => {
         <>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
-            keyboardVerticalOffset={10}
+            keyboardVerticalOffset={100}
             behavior={Platform.OS === "android" ? "padding" : "height"}
           >
             <View style={styles.boughtQuantContainer}>

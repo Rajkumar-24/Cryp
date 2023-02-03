@@ -16,6 +16,7 @@ const BottomTabNavigator = () => {
         tabBarInactiveTintColor: "#C0C0C0",
         tabBarStyle: {
           backgroundColor: "#181818",
+          padding: 5,
         },
       }}
     >

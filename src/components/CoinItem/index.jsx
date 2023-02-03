@@ -35,47 +35,49 @@ const CoinItem = ({ marketcoin }) => {
     return marketCap;
   };
   return (
-    <Pressable
-      style={({ pressed }) => [
-        styles.coinContainer,
-        pressed ? styles.coinPressed : null,
-      ]}
-      onPress={() => navigation.navigate("CoinDetailsScreen", { coinId: id })}
-    >
-      <Image
-        source={{ uri: image }}
-        style={{
-          height: 30,
-          width: 30,
-          marginRight: 10,
-          alignSelf: "center",
-        }}
-      />
-      <View>
-        <Text style={styles.titile}>{name} </Text>
-        <View style={{ flexDirection: "row" }}>
-          <View style={styles.rankContainer}>
-            <Text style={styles.rank}>{market_cap_rank}</Text>
+    <View style={styles.mainContainer}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.coinContainer,
+          pressed ? styles.coinPressed : null,
+        ]}
+        onPress={() => navigation.navigate("CoinDetailsScreen", { coinId: id })}
+      >
+        <Image
+          source={{ uri: image }}
+          style={{
+            height: 40,
+            width: 40,
+            marginRight: 10,
+            alignSelf: "center",
+          }}
+        />
+        <View>
+          <Text style={styles.titile}>{name} </Text>
+          <View style={{ flexDirection: "row" }}>
+            <View style={styles.rankContainer}>
+              <Text style={styles.rank}>{market_cap_rank}</Text>
+            </View>
+            <Text style={styles.text}>{symbol.toUpperCase()}</Text>
+            <AntDesign
+              name={price_change_percentage_24h > 0 ? "caretup" : "caretdown"}
+              size={12}
+              color={percentageColor}
+              style={{ alignSelf: "center", marginRight: 5 }}
+            />
+            <Text style={{ color: percentageColor }}>
+              {price_change_percentage_24h?.toFixed(2)}%{" "}
+            </Text>
           </View>
-          <Text style={styles.text}>{symbol.toUpperCase()}</Text>
-          <AntDesign
-            name={price_change_percentage_24h > 0 ? "caretup" : "caretdown"}
-            size={12}
-            color={percentageColor}
-            style={{ alignSelf: "center", marginRight: 5 }}
-          />
-          <Text style={{ color: percentageColor }}>
-            {price_change_percentage_24h?.toFixed(2)}%{" "}
+        </View>
+        <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
+          <Text style={styles.titile}>{current_price}</Text>
+          <Text style={{ color: "white" }}>
+            MCap {normalizeMarketCap(market_cap)}
           </Text>
         </View>
-      </View>
-      <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
-        <Text style={styles.titile}>{current_price}</Text>
-        <Text style={{ color: "white" }}>
-          MCap {normalizeMarketCap(market_cap)}
-        </Text>
-      </View>
-    </Pressable>
+      </Pressable>
+    </View>
   );
 };
 export default CoinItem;

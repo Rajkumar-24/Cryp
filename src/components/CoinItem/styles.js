@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
   },
   coinContainer: {
     flexDirection: "row",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#282828",
     padding: 15,
   },
   coinPressed: {
@@ -31,6 +29,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#585858",
     paddingHorizontal: 3,
     borderRadius: 5,
+  },
+  mainContainer: {
+    backgroundColor: "#880e4f",
+    margin: 10,
+    marginVertical: 3,
+    marginHorizontal: 10,
+    borderRadius: 20,
   },
 });
 

@@ -49,7 +49,7 @@ const HomeScreen = () => {
       >
         <Text
           style={{
-            color: "white",
+            color: "black",
             fontSize: 25,
             letterSpacing: 1,
             paddingHorizontal: 20,
@@ -61,7 +61,7 @@ const HomeScreen = () => {
         <Text
           style={{ color: "lightgrey", fontSize: 12, paddingHorizontal: 10 }}
         >
-          Powered by CoinGecko
+          Coingeko
         </Text>
       </View>
       <FlatList
