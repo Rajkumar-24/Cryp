@@ -1,37 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { SafeAreaView, Text, TextInput } from "react-native";
-import { Pressable } from "react-native";
-import { View } from "react-native";
-import SearchableDropDown from "react-native-searchable-dropdown";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import SearchableDropdown from "react-native-searchable-dropdown";
 import styles from "./styles";
 import { useRecoilState } from "recoil";
-import { allPortfolioBoughtAssetsInStorage } from "../../atoms/PortfoiloAssets";
-import { getAllCoins } from "../../services/request";
-
-const items = [
-  //name key is must.It is to show the text in front
-  { id: 1, name: "angellist" },
-  { id: 2, name: "codepen" },
-  { id: 3, name: "envelope" },
-  { id: 4, name: "etsy" },
-  { id: 5, name: "facebook" },
-  { id: 6, name: "foursquare" },
-  { id: 7, name: "github-alt" },
-  { id: 8, name: "github" },
-  { id: 9, name: "gitlab" },
-  { id: 10, name: "instagram" },
-];
+import { allPortfolioBoughtAssetsInStorage } from "../../atoms/PortfolioAssets";
+import { getAllCoins, getDetailedCoinData } from "../../services/request";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import uuid from "react-native-uuid";
 
 const AddNewAssetScreen = () => {
   const [allCoins, setAllCoins] = useState([]);
-  const [boughtAssetsQuantity, setBoughtAssetQuantity] = useState("");
+  const [boughtAssetQuantity, setBoughtAssetQuantity] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedCoinId, setSelectedCoinId] = useState(null);
+  const [selectedCoin, setSelectedCoin] = useState(null);
+
   const [assetsInStorage, setAssetsInStorage] = useRecoilState(
     allPortfolioBoughtAssetsInStorage
   );
-  const [loading, setLoading] = useState(false);
-  const [selectedCoinId, setSelectedCoinId] = useState(false);
-  console.log(selectedCoinId);
-  const onAddNewAssets = () => {};
+
+  const navigation = useNavigation();
+
+  const isQuantityEntered = () => boughtAssetQuantity === "";
+
   const fetchAllCoins = async () => {
     if (loading) {
       return;
@@ -41,24 +40,55 @@ const AddNewAssetScreen = () => {
     setAllCoins(allCoins);
     setLoading(false);
   };
+
+  const fetchCoinInfo = async () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    const coinInfo = await getDetailedCoinData(selectedCoinId);
+    setSelectedCoin(coinInfo);
+    setLoading(false);
+  };
+
   useEffect(() => {
     fetchAllCoins();
   }, []);
+
+  useEffect(() => {
+    if (selectedCoinId) {
+      fetchCoinInfo();
+    }
+  }, [selectedCoinId]);
+
+  const onAddNewAsset = async () => {
+    const newAsset = {
+      id: selectedCoin.id,
+      unique_id: selectedCoin.id + uuid.v4(),
+      name: selectedCoin.name,
+      image: selectedCoin.image.small,
+      ticker: selectedCoin.symbol.toUpperCase(),
+      quantityBought: parseFloat(boughtAssetQuantity),
+      priceBought: selectedCoin.market_data.current_price.inr,
+    };
+    const newAssets = [...assetsInStorage, newAsset];
+    const jsonValue = JSON.stringify(newAssets);
+    await AsyncStorage.setItem("@portfolio_coins", jsonValue);
+    setAssetsInStorage(newAssets);
+    navigation.goBack();
+  };
+
   return (
-    <View style={{ flex: 1, marginBottom: 10 }}>
-      <SearchableDropDown
-        onTextChange={(text) => setSelectedCoinId(text)}
-        onItemSelect={(text) => setSelectedCoinId(text.id)}
+    <KeyboardAvoidingView style={{ flex: 1 }}>
+      <SearchableDropdown
+        items={allCoins}
+        onItemSelect={(item) => setSelectedCoinId(item.id)}
         containerStyle={styles.dropdownContainer}
         itemStyle={styles.item}
-        itemTextStyle={{
-          color: "white",
-        }}
-        items={allCoins}
-        defaultIndex={2}
-        placeholder="placeholder"
-        placeholderTextColor="white"
+        itemTextStyle={{ color: "white" }}
         resetValue={false}
+        placeholder={selectedCoinId || "Select a coin..."}
+        placeholderTextColor="white"
         textInputProps={{
           underlineColorAndroid: "transparent",
           style: {
@@ -71,29 +101,52 @@ const AddNewAssetScreen = () => {
           },
         }}
       />
-      <View style={styles.boughtQuantContainer}>
-        <View style={{ flexDirection: "row" }}>
-          <TextInput
-            style={{ color: "white", fontSize: 90 }}
-            value={boughtAssetsQuantity}
-            placeholder="0"
-            keyboardType="numeric"
-            onChangeText={setBoughtAssetQuantity}
-          />
-          <Text style={styles.ticker}>BTC</Text>
-        </View>
-        <Text style={styles.priceperCoin}> $400 per coin</Text>
-      </View>
-      <Pressable
-        style={({ pressed }) => [
-          styles.butoonContainer,
-          pressed ? styles.coinPressed : null,
-        ]}
-        onPress={onAddNewAssets}
-      >
-        <Text style={styles.buttonText}>Add new Assets</Text>
-      </Pressable>
-    </View>
+      {selectedCoin && (
+        <>
+          <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            keyboardVerticalOffset={10}
+            behavior={Platform.OS === "android" ? "padding" : "height"}
+          >
+            <View style={styles.boughtQuantContainer}>
+              <View style={{ flexDirection: "row" }}>
+                <TextInput
+                  style={{ color: "white", fontSize: 90 }}
+                  value={boughtAssetQuantity}
+                  placeholder="0"
+                  keyboardType="numeric"
+                  onChangeText={setBoughtAssetQuantity}
+                />
+                <Text style={styles.ticker}>
+                  {selectedCoin.symbol.toUpperCase()}
+                </Text>
+              </View>
+              <Text style={styles.priceperCoin}>
+                ₹{selectedCoin.market_data.current_price.inr} per coin
+              </Text>
+            </View>
+            <Pressable
+              style={{
+                ...styles.butoonContainer,
+                backgroundColor: isQuantityEntered() ? "#303030" : "#4169E1",
+              }}
+              onPress={onAddNewAsset}
+              disabled={isQuantityEntered()}
+            >
+              <Text
+                style={{
+                  ...styles.buttonText,
+                  color: isQuantityEntered() ? "grey" : "white",
+                }}
+              >
+                Add New Asset
+              </Text>
+            </Pressable>
+          </KeyboardAvoidingView>
+        </>
+      )}
+    </KeyboardAvoidingView>
   );
 };
+
 export default AddNewAssetScreen;

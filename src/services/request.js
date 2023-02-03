@@ -10,10 +10,10 @@ export const getDetailedCoinData = async (coinId) => {
   }
 };
 
-export const getCoinMarketChart = async (coinId) => {
+export const getCoinMarketChart = async (coinId, selectedRange) => {
   try {
     const response =
-      await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=inr&days=1&interval=hourly
+      await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=inr&days=${selectedRange}&interval=hourly
         `);
     return response.data;
   } catch (e) {
@@ -46,6 +46,16 @@ export const getAllCoins = async () => {
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/list?include_platform=false`
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const getCandelChartData = async (coinId, days = 1) => {
+  try {
+    const response = await axios.get(
+      `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=inr&days=${days}`
     );
     return response.data;
   } catch (e) {

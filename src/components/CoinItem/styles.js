@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   coinPressed: {
     opacity: 0.9,
-    backgroundColor: "#4b4b4bc3",
+    backgroundColor: "#959090c3",
   },
   rank: {
     fontWeight: "bold",

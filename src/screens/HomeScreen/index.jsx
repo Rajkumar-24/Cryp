@@ -38,20 +38,52 @@ const HomeScreen = () => {
   useEffect(() => {
     fetchCoins();
   }, []);
-
+  // if (loading) {
+  //   return (
+  //     <View style={{ flex: 1, alignSelf: "center" }}>
+  //       <Text style={{ color: "grey", fontSize: 35 }}>Loading</Text>
+  //     </View>
+  //   );
+  // }
   return (
-    <FlatList
-      data={coins}
-      renderItem={({ item }) => <CoinItem marketcoin={item} />}
-      onEndReached={() => fetchCoins(coins.length / 50 + 1)}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          tintColor="white"
-          onRefresh={refetchCoins}
-        />
-      }
-    />
+    <View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 25,
+            letterSpacing: 1,
+            paddingHorizontal: 20,
+            paddingBottom: 5,
+          }}
+        >
+          CryptoCurrency
+        </Text>
+        <Text
+          style={{ color: "lightgrey", fontSize: 12, paddingHorizontal: 10 }}
+        >
+          Powered by CoinGecko
+        </Text>
+      </View>
+      <FlatList
+        data={coins}
+        renderItem={({ item }) => <CoinItem marketcoin={item} />}
+        onEndReached={() => fetchCoins(coins.length / 50 + 1)}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            tintColor="white"
+            onRefresh={refetchCoins}
+          />
+        }
+      />
+    </View>
   );
 };
 export default HomeScreen;
