@@ -5,7 +5,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import Navigation from "./src/navigation";
 import WatchlistProvider from "./src/Contexts/WatchlistContext";
 import { RecoilRoot } from "recoil";
-import SearchableDropdown from "react-native-searchable-dropdown";
 
 export default function App() {
   return (
