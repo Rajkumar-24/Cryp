@@ -11,7 +11,7 @@ export default function App() {
     <NavigationContainer
       theme={{
         colors: {
-          background: "#f7f5f5",
+          background: "#121212",
         },
       }}
     >
@@ -19,7 +19,7 @@ export default function App() {
         <WatchlistProvider>
           <View style={styles.container}>
             <Navigation />
-            <StatusBar style="dark" />
+            <StatusBar style="light" />
           </View>
         </WatchlistProvider>
       </RecoilRoot>
@@ -30,7 +30,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#121212",
     paddingTop: 50,
   },
 });

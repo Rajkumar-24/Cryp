@@ -48,8 +48,11 @@ const CoinItem = ({ marketcoin }) => {
           style={{
             height: 40,
             width: 40,
+            borderRadius: 20,
             marginRight: 10,
             alignSelf: "center",
+            borderWidth: 1,
+            borderColor: "white",
           }}
         />
         <View>
@@ -72,7 +75,7 @@ const CoinItem = ({ marketcoin }) => {
         </View>
         <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
           <Text style={styles.titile}>{current_price}</Text>
-          <Text style={{ color: "white" }}>
+          <Text style={{ color: "black" }}>
             MCap {normalizeMarketCap(market_cap)}
           </Text>
         </View>

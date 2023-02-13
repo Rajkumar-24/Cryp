@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   coinPressed: {
     opacity: 0.9,
     backgroundColor: "#959090c3",
+    borderRadius: 20,
   },
   rank: {
     fontWeight: "bold",
@@ -31,11 +32,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   mainContainer: {
-    backgroundColor: "#880e4f",
+    backgroundColor: "#282828",
     margin: 10,
-    marginVertical: 3,
+    marginVertical: 5,
     marginHorizontal: 10,
     borderRadius: 20,
+    borderBottomWidth: 3,
+    borderBottomColor: "#AAAAAA",
   },
 });
 

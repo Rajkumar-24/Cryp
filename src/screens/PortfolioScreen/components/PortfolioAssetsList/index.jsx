@@ -64,10 +64,10 @@ const PortfolioAssetsList = () => {
       <Pressable
         style={{
           flex: 1,
-          backgroundColor: "#EA3943",
+          backgroundColor: "#121212",
           alignItems: "flex-end",
           justifyContent: "center",
-          paddingRight: 30,
+          paddingRight: 20,
           marginLeft: 20,
         }}
         onPress={() => onDeleteAsset(data)}
@@ -88,6 +88,7 @@ const PortfolioAssetsList = () => {
       closeOnRowPress
       keyExtractor={({ id }, index) => `${id}${index}`}
       renderHiddenItem={(data) => renderDeleteButton(data)}
+      style={{ backgroundColor: "#121212" }}
       ListHeaderComponent={
         <>
           <View style={styles.balanceContainer}>
