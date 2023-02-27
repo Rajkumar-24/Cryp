@@ -312,15 +312,21 @@ const CoinDetailsScreen = () => {
                 )}
               </GestureHandlerRootView>
             </View>
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               {/* bitcoin */}
               <View
                 style={{
                   flexDirection: "row",
                   flex: 1,
+                  alignItems: "center",
                   paddingLeft: 5,
                   marginRight: 5,
-                  marginTop: 5,
+                  marginTop: 35,
                 }}
               >
                 <Text
