@@ -29,9 +29,9 @@ Follow these steps to set up the project:
 2. Navigate to the project directory:
 
 3. Install project dependencies:
-  ```
-  npm install
-  ```
+    ```
+    npm install
+    ```
 4. Start the application:
    ```
    npm start
